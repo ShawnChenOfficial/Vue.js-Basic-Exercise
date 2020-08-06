@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            body {
+                max-width:500px;
+            }
+        .container-fluid{
+            margin:20% 0 0 40%;
+        }
+        .container-fluid > .row{
+            background-color:pink;
+            border:1px solid;
+        }
+        #result-filed{
+            border:1px solid;
+            height:40px;
+            line-height:40px;
+        }
+        .col-12 > .row > div{
+            border:1px solid;
+            height:40px;
+        }
+        
+        
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div id="calculator" class="row p-4 rounded">
+                <input class="col-12 bg-light text-right mb-3" v-bind:value="result" disabled/>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3 offset-9 btn btn-dark mb-2" v-on:click="clear">Clear</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(7)">7</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(8)">8</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(9)">9</div>
+                        <div v-on:click="plus" class="col-3 btn btn-dark">+</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(4)">4</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(5)">5</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(6)">6</div>
+                        <div v-on:click="minus" class="col-3 btn btn-dark">-</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(1)">1</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(2)">2</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(3)">3</div>
+                        <div v-on:click="multi" class="col-3 btn btn-dark">*</div>
+                        <div class="col-3 btn btn-dark" v-on:click="addValue(0)">0</div>
+                        <div v-on:click="equal" class="col-6 btn btn-dark">=</div>
+                        <div v-on:click="divide" class="col-3 btn btn-dark">/</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--script-->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            var leftNum = 0;
+            var rightNum = 0;
+            var calculateType = 0; // 1 plus 2 minus 3 multi 4 divide 0 none
+            var hasEqualed = false;
+            const calculator = new Vue({
+                el:'#calculator',
+                data:{
+                    result: 0
+                },
+                methods:{
+                    clear: function(event){
+                        calculator.result = 0;
+                        leftNum = 0;
+                        rightNum = 0;
+                        calculateType = 0;
+                    },
+                    plus: function(event){
+                        hasEqualed = false;
+                        if(calculateType == 0){
+                            leftNum = calculator.result;
+                            calculator.result = calculator.result + ' + ';
+                            calculateType = 1;
+                        }
+                        else{
+                            calcWhenTwoNum(calculator,false,1," + ");
+                        }
+                    },
+                    minus: function(event){
+                        hasEqualed = false;
+                        if(calculateType == 0){
+                            leftNum = calculator.result;
+                            calculator.result = calculator.result + ' - ';
+                            calculateType = 2;
+                        }
+                        else{
+                            calcWhenTwoNum(calculator,false,2,' - ');
+                        }
+                    },
+                    multi: function(event){
+                        hasEqualed = false;
+                        if(calculateType == 0){
+                            leftNum = calculator.result;
+                            calculator.result = calculator.result + ' * ';
+                            calculateType = 3;
+                        }
+                        else{
+                            calcWhenTwoNum(calculator,false,3,' * ');
+                        }
+                    },
+                    divide: function(event){
+                        hasEqualed = false;
+                        if(calculateType == 0){
+                            leftNum = calculator.result;
+                            calculator.result = calculator.result + ' / ';
+                            calculateType = 4;
+                        }
+                        else{
+                            calcWhenTwoNum(calculator,false,4, ' / ');
+                        }
+                    },
+                    equal:function(event){
+                        hasEqualed = true;
+                        if(leftNum != 0 && rightNum !=0){
+                            calcWhenTwoNum(calculator,true,0,"");
+                        }
+                        else if((rightNum == 0 && leftNum !=0)||(rightNum == 0 && leftNum ==0)){
+                            calculator.result = leftNum;
+                            leftNum = calculator.result;
+                            rightNum = 0;
+                            calculateType = 0;
+                        }
+                    },
+                    addValue: function(value,event){
+                        if(hasEqualed){
+                            leftNum = value;
+                            calculator.result = value;
+                            hasEqualed = false;
+                        }
+                        else{
+                            if(calculateType == 0){
+                                leftNum = parseInt(leftNum + "" + value);
+                                calculator.result = leftNum;
+                            }
+                            else if(calculateType != 0){
+                                rightNum = parseInt(rightNum.toString() + "" + value);
+                                calculator.result = calculator.result + "" + value;
+                            }
+                        }
+                    }
+                }
+            })
+        
+            function calcWhenTwoNum(calculator, hideOperator,newOperator,operator){
+                calculator.result = "";
+                switch(calculateType){
+                    case 1:
+                        calculator.result = leftNum + rightNum;
+                        leftNum = calculator.result;
+                        if(!hideOperator){
+                            calculator.result += operator;
+                        }
+                        rightNum = 0;
+                        calculateType = newOperator;
+                        break;
+                    case 2:
+                        calculator.result = leftNum - rightNum;
+                        leftNum = calculator.result;
+                        if(!hideOperator){
+                            calculator.result += operator;
+                        }
+                        rightNum = 0;
+                        calculateType = newOperator;
+                        break;
+                    case 3:
+                        calculator.result = leftNum * rightNum;
+                        leftNum = calculator.result;
+                        if(!hideOperator){
+                            calculator.result += operator;
+                        }
+                        rightNum = 0;
+                        calculateType = newOperator;
+                        break;
+                    case 4:
+                        calculator.result =(rightNum==0)?0: leftNum / rightNum;
+                        leftNum = calculator.result;
+                        if(!hideOperator){
+                            calculator.result += operator;
+                        }
+                        rightNum = 0;
+                        calculateType = newOperator;
+                        break;
+                }
+            }
+            </script>
+    </body>
+</html>

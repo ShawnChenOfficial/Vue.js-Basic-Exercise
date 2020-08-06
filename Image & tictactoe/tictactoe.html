@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="./source/css/tictactoe.css">
+    </head>
+    <body class="text-center">
+        <div id="app">
+            <table>
+                <tbody class="border">
+                    <tr>
+                        <td>
+                            <img v-bind:src="initImg(0)" v-bind:height="height" v-bind:width="width" @click="Click(0)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(1)" v-bind:height="height" v-bind:width="width" @click="Click(1)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(2)" v-bind:height="height" v-bind:width="width" @click="Click(2)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img v-bind:src="initImg(3)" v-bind:height="height" v-bind:width="width" @click="Click(3)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(4)" v-bind:height="height" v-bind:width="width" @click="Click(4)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(5)" v-bind:height="height" v-bind:width="width" @click="Click(5)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img v-bind:src="initImg(6)" v-bind:height="height" v-bind:width="width" @click="Click(6)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(7)" v-bind:height="height" v-bind:width="width" @click="Click(7)"/>
+                        </td>
+                        <td>
+                            <img v-bind:src="initImg(8)" v-bind:height="height" v-bind:width="width" @click="Click(8)"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h1 id="resultDisplay">{{getResult}}</h1>
+            <button id="restart" class="btn btn-secondary" @click="Restart()" hidden>Restart</button>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./source/js/tictactoe.js"></script>
+    </body>
+</html>
+
